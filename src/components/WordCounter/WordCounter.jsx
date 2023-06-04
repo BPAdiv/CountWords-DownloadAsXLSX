@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { read, utils, writeFile } from "xlsx";
 function WordCounter({ text, fileName }) {
   const [xlsxData, setXlsxData] = useState([]);
+  const ref = useRef();
   const handleConvert = () => {
     const words = text.trim().split(/\s+/);
     const wordCount = words.length;
@@ -76,7 +77,7 @@ function WordCounter({ text, fileName }) {
             </svg>
             Click here to download as XLSX
           </button>
-          <div className="max-h-screen overflow-auto mt-5  ">
+          <div ref={ref} className="max-h-screen overflow-auto mt-5  ">
             <table className="w-full text-sm text-left text-gray-900 ">
               <thead className="text-xs text-gray-700 uppercase bg-gray-200  ">
                 <tr>
