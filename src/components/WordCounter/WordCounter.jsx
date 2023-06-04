@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { read, utils, writeFile } from "xlsx";
 function WordCounter({ text, fileName }) {
   const [xlsxData, setXlsxData] = useState([]);
@@ -15,6 +15,12 @@ function WordCounter({ text, fileName }) {
       data.push({ Word: word, Count: count });
     });
     setXlsxData([...data]);
+    setTimeout(() => {
+      if (!ref.current) {
+        return;
+      }
+      ref.current.scrollIntoView();
+    }, 500);
   };
   const handleCountWord = () => {
     // const words = text.trim().split(/\s+/);
