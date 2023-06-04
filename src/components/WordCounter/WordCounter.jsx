@@ -4,7 +4,7 @@ function WordCounter({ text, fileName }) {
   const [xlsxData, setXlsxData] = useState([]);
   const ref = useRef();
   const handleConvert = () => {
-    const words = text.trim().split(/\s+/);
+    const words = text.trim().toLowerCase().split(/\s+/);
     const wordCount = words.length;
     const wordsCounts = {};
     const data = [{ Word: "Total Words", Count: wordCount }];
@@ -34,7 +34,7 @@ function WordCounter({ text, fileName }) {
     //   data.push({ Word: word, Count: count });
     // });
     // setXlsxData([...data]);
-
+    const sortedXlsxData = xlsxData.sort((a, b) => b.Count - a.Count);
     const ws = utils.json_to_sheet(xlsxData);
     const wb = utils.book_new();
     utils.book_append_sheet(wb, ws, "Sheet1");
@@ -92,14 +92,16 @@ function WordCounter({ text, fileName }) {
                 </tr>
               </thead>
               <tbody>
-                {xlsxData.map((row, index) => {
-                  return (
-                    <tr className="border-b" key={index}>
-                      <td className="px-6 py-4">{row.Word}</td>
-                      <td className="px-6 py-4">{row.Count}</td>
-                    </tr>
-                  );
-                })}
+                {xlsxData
+                  .sort((a, b) => b.Count - a.Count)
+                  .map((row, index) => {
+                    return (
+                      <tr className="border-b" key={index}>
+                        <td className="px-6 py-4">{row.Word}</td>
+                        <td className="px-6 py-4">{row.Count}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
